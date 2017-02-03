@@ -96,7 +96,7 @@ objects:
             protocol: TCP
           - containerPort: 8443
             protocol: TCP
-         resources: {}
+          resources: {}
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
