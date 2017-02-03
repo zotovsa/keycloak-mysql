@@ -8,8 +8,6 @@ metadata:
     tags: "keycloak"
 objects:
 
-
-
 - apiVersion: v1
   kind: ImageStream
   metadata:
@@ -40,3 +38,144 @@ objects:
       type: ImageChange
   status:
     lastVersion: 0
+    
+    
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    creationTimestamp: null
+    name:  keycloak-cluster
+  spec:
+    replicas: 3
+    selector:
+      deploymentconfig:  keycloak-cluster
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          deploymentconfig:  keycloak-cluster
+      spec:
+        containers:
+        - env:
+          - name: OPENSHIFT_DNS_PING_SERVICE_NAME
+            value:  keycloak-cluster-nodes
+          image:  keycloak-cluster-base:latest
+          imagePullPolicy: Always
+          name: datagrid-cluster
+          livenessProbe:
+            tcpSocket:
+              port: 9990
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+          ports:
+          - containerPort: 9990
+            protocol: TCP
+          - containerPort: 11222
+            protocol: TCP
+          - containerPort: 11211
+            protocol: TCP
+          - containerPort: 9999
+            protocol: TCP
+          - containerPort: 57600
+            protocol: TCP
+          - containerPort: 7600
+            protocol: TCP
+          - containerPort: 8181
+            protocol: TCP
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8888
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - datagrid-cluster
+        from:
+          kind: ImageStreamTag
+          name:  keycloak-cluster-base:latest
+      type: ImageChange
+  status: {}
+  
+  
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name:  keycloak-cluster-nodes
+  spec:
+    ports:
+    - name: 8888-tcp
+      port: 8888
+      protocol: TCP
+      targetPort: 8888
+    selector:
+      deploymentconfig:  keycloak-cluster
+    sessionAffinity: None
+    type: ClusterIP
+    portalIP: None
+    clusterIP: None
+  status:
+    loadBalancer: {}
+
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: null
+    name: keycloak-cluster
+  spec:
+    ports:
+    - name: 9990-tcp
+      port: 9990
+      protocol: TCP
+      targetPort: 9990
+    - name: 11222-tcp
+      port: 11222
+      protocol: TCP
+      targetPort: 11222
+    - name: 11211-tcp
+      port: 11211
+      protocol: TCP
+      targetPort: 11211
+    - name: 9999-tcp
+      port: 9999
+      protocol: TCP
+      targetPort: 9999
+    - name: 57600-tcp
+      port: 57600
+      protocol: TCP
+      targetPort: 57600
+    - name: 7600-tcp
+      port: 7600
+      protocol: TCP
+      targetPort: 7600
+    - name: 8181-tcp
+      port: 8181
+      protocol: TCP
+      targetPort: 8181
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      deploymentconfig: keycloak-cluster
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+
