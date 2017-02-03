@@ -35,15 +35,20 @@ RUN cd /opt/jboss/ && curl -L https://downloads.jboss.org/keycloak/$KEYCLOAK_VER
  
 USER jboss 
 
+COPY ad-integration-module-1.0.0.jar /opt/jboss/keycloak/providers/ad-integration-module.jar
 COPY docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh
+
 #ADD setLogLevel.xsl /opt/jboss/keycloak/
 #RUN java -jar /usr/share/java/saxon.jar -s:/opt/jboss/keycloak/standalone/configuration/standalone.xml -xsl:/opt/jboss/keycloak/setLogLevel.xsl -o:/opt/jboss/keycloak/standalone/configuration/standalone.xml
-COPY standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
-COPY keycloak.jks /opt/jboss/keycloak/standalone/configuration/keycloak.jks
 
+COPY standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
+COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
+COPY keycloak.jks /opt/jboss/keycloak/standalone/configuration/keycloak.jks
+COPY realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html
+COPY realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html
 
 USER root
-RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks && \
+RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html && \
     chmod +x /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks
 
 USER jboss
