@@ -94,7 +94,9 @@ objects:
             protocol: TCP
           - containerPort: 8888
             protocol: TCP
-          resources: {}
+          - containerPort: 8443
+            protocol: TCP 
+         resources: {}
           terminationMessagePath: /dev/termination-log
         dnsPolicy: ClusterFirst
         restartPolicy: Always
@@ -172,6 +174,10 @@ objects:
       port: 8080
       protocol: TCP
       targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
     selector:
       deploymentconfig: keycloak-cluster
     sessionAffinity: None
