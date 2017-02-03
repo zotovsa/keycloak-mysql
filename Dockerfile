@@ -47,13 +47,20 @@ COPY keycloak.jks /opt/jboss/keycloak/standalone/configuration/keycloak.jks
 COPY realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html
 COPY realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html
 
+ADD jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz
+
 USER root
-RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html && \
+RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz && \
     chmod +x /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks
 
 USER jboss
 ENV JBOSS_HOME /opt/jboss/keycloak
+
+
+
 EXPOSE 8080 8443
+
+EXPOSE 57600 7600 8181 9990 9999 11211 11222
 
 ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 
