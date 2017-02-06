@@ -6,7 +6,9 @@ fi
 #ip=$(grep `hostname` /etc/hosts | awk '{print $1}')
 #exec /opt/jboss/keycloak/bin/standalone.sh -c clustered.xml -Djboss.bind.address=$ip -Djboss.bind.address.management=0.0.0.0 -Djgroups.join_timeout=1000 -Djboss.default.jgroups.stack=kubernetes
 
-exec /opt/jboss/keycloak/bin/standalone.sh -c standalone-ha.xml -Djboss.bind.address=$ip -Djboss.bind.address.management=0.0.0.0 -Djgroups.join_timeout=1000 -Djboss.default.jgroups.stack=kubernetes
+#exec /opt/jboss/keycloak/bin/standalone.sh -c standalone-ha.xml -Djboss.bind.address=$ip -Djboss.bind.address.management=0.0.0.0 -Djgroups.join_timeout=1000 -Djboss.default.jgroups.stack=kubernetes
+
+exec /opt/jboss/keycloak/bin/standalone.sh -c standalone-ha.xml  -Djgroups.join_timeout=1000 -Djboss.default.jgroups.stack=kubernetes $@
 
 
 #exec /opt/jboss/keycloak/bin/standalone.sh $@
