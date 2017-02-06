@@ -44,8 +44,8 @@ COPY docker-entrypoint.sh /opt/jboss/docker-entrypoint.sh
 COPY standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone.xml
 COPY standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml
 COPY keycloak.jks /opt/jboss/keycloak/standalone/configuration/keycloak.jks
-COPY realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html
-COPY realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html
+COPY realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-ad-oidc.html
+COPY realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html
 
 RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main; cd /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main && curl -O http://central.maven.org/maven2/mysql/mysql-connector-java/5.1.18/mysql-connector-java-5.1.18.jar
 COPY module.xml /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml
@@ -53,7 +53,7 @@ COPY module.xml /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/ma
 ADD jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz
 
 USER root
-RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/theme/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml && \
+RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml && \
     chmod +x /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks
 
 USER jboss
