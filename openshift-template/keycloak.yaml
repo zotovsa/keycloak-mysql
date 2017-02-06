@@ -67,6 +67,10 @@ objects:
         - env:
           - name: OPENSHIFT_DNS_PING_SERVICE_NAME
             value:  keycloak-cluster-nodes
+          - name: KEYCLOAK_USER
+            value: admin
+          - name: KEYCLOAK_PASSWORD
+            value: admin
           image:  keycloak-cluster-base:latest
           imagePullPolicy: Always
           name: datagrid-cluster
