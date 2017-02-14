@@ -51,10 +51,13 @@ RUN mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main;
 COPY module.xml /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml
 
 ADD jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz
+ADD rootCA.crt /opt/jboss/keycloak/rootCA.crt
 
 USER root
 RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/providers/ad-integration-module.jar /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/standalone-ha.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-ad-oidc.html /opt/jboss/keycloak/themes/base/admin/resources/partials/realm-identity-provider-keycloak-ad-oidc.html /opt/jboss/keycloak/modules/system/layers/base/org/jgroups-protocols.tar.gz /opt/jboss/keycloak/modules/system/layers/base/com/mysql/jdbc/main/module.xml && \
     chmod +x /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/standalone/configuration/standalone.xml /opt/jboss/keycloak/standalone/configuration/keycloak.jks
+
+RUN /usr/lib/jvm/java/bin/keytool -importcert -noprompt -alias rootcert1 -keystore /usr/lib/jvm/java/jre/lib/security/cacerts -storepass changeit -file /opt/jboss/keycloak/rootCA.crt
 
 USER jboss
 ENV JBOSS_HOME /opt/jboss/keycloak
