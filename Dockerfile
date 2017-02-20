@@ -34,7 +34,7 @@ ENV LAUNCH_JBOSS_IN_BACKGROUND 1
 COPY keycloak-2.5.1.Final.tar.gz.parta /opt/jboss/
 COPY keycloak-2.5.1.Final.tar.gz.partb /opt/jboss/
 
-RUN cd /opt/jboss/ && cat keycloak-2.5.1.Final.tar.gz.part* > keycloak-2.5.1.Final.tar.gz && rm keycloak-2.5.1.Final.tar.gz.part* && tar zx && mv /opt/jboss/keycloak-2.5.1.Final /opt/jboss/keycloak
+RUN cd /opt/jboss/ && cat keycloak-2.5.1.Final.tar.gz.part* > keycloak-2.5.1.Final.tar.gz && rm keycloak-2.5.1.Final.tar.gz.part* && tar zxf keycloak-2.5.1.Final.tar.gz && mv /opt/jboss/keycloak-2.5.1.Final /opt/jboss/keycloak
 
  
 USER jboss 
