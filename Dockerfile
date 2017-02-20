@@ -59,7 +59,7 @@ RUN chown jboss:jboss /opt/jboss/docker-entrypoint.sh /opt/jboss/keycloak/provid
 
 RUN /usr/lib/jvm/java/bin/keytool -importcert -noprompt -alias rootcert1 -keystore /usr/lib/jvm/java/jre/lib/security/cacerts -storepass changeit -file /opt/jboss/keycloak/rootCA.crt
 
-USER root
+#USER jboss
 ENV JBOSS_HOME /opt/jboss/keycloak
 
 
@@ -68,9 +68,9 @@ EXPOSE 8080 8443
 
 EXPOSE 57600 7600 8181 9990 9999 11211 11222
 
-ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
+#ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 
-CMD ["-b", "0.0.0.0"]
+#CMD ["-b", "0.0.0.0"]
 
 
 
