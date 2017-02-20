@@ -71,6 +71,7 @@ EXPOSE 57600 7600 8181 9990 9999 11211 11222
 #ENTRYPOINT [ "/opt/jboss/docker-entrypoint.sh" ]
 
 #CMD ["-b", "0.0.0.0"]
+CMD ["/usr/bin/bash"]
 
 
 
