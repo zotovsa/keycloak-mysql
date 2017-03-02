@@ -146,7 +146,7 @@
                            enabled="true"
                            use-java-context="true"
                            use-ccm="true">
-               <ds:connection-url>jdbc:mysql://mysql:3306/keycloak</ds:connection-url>
+               <ds:connection-url>jdbc:mysql://mysql:3306/keycloak?useSSL=true</ds:connection-url>
                <ds:driver>mysql</ds:driver>
                <ds:security>
                   <ds:user-name>keycloak</ds:user-name>
